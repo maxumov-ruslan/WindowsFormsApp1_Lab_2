@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using System.Drawing;
 namespace WindowsFormsApp1_Lab_2
 {
-    class GraphObject
+    abstract class GraphObject
     {
-        int x, y, w, h;
-        private SolidBrush brush;
+        protected int x, y, w, h;
+        protected SolidBrush brush;
         static Random r = new Random();
         public bool Selected { get; set; }
-        static public int MaxSize { get; set; }
+        
         public int X
         {
             get { return x; }
@@ -32,10 +32,11 @@ namespace WindowsFormsApp1_Lab_2
                 y = value;
             }
         }
-        
+
         public GraphObject()
         {
-            Color[] cols = { Color.Red, Color.Green, Color.Yellow, Color.Tomato,Color.Cyan };
+            Selected = false;
+            Color[] cols = { Color.Red, Color.Green, Color.Yellow, Color.Tomato, Color.Cyan };
             var c = cols[r.Next(cols.Length)];
             x = r.Next(200);
             y = r.Next(200);
@@ -43,18 +44,10 @@ namespace WindowsFormsApp1_Lab_2
             h = 50;
             brush = new SolidBrush(c);
         }
-        public void Draw(Graphics g)
-        {
-            g.FillRectangle(brush, x, y, w, h);
-            if (Selected ==true)
-            {
-                g.DrawRectangle(Pens.Aquamarine, x, y, w, h);
-            }
-            else
-            {
-                g.DrawRectangle(Pens.Black, x, y, w, h);
-            }
-            
-        }
+        abstract public bool ContainsPoint(Point p);
+
+
+        abstract public void Draw(Graphics g);
+        
     }
 }
